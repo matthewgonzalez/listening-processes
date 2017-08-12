@@ -1,6 +1,6 @@
 # listening-processes [![Build Status](https://travis-ci.org/matthewgonzalez/listening-processes.svg?branch=master)](https://travis-ci.org/matthewgonzalez/listening-processes)
 
-> Dependency-free, platform-aware, DNS-clearing library.
+> "A simple NPM module for retrieving pertinent info on processes which are listening on local ports, and for killing those processes using shell commands `lsof`, `ps`, and `kill` in the background."
 
 ## Install
 
