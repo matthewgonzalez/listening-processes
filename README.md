@@ -12,20 +12,31 @@ $ npm install --save listening-processes
 
 ```js
 const processes = require('listening-processes')
-processes('node') // returns array of all Listening Processes with command of `node`
-  /* Array output resembles the following:
-    node: [
-      { command: 'node',
-        pid: '581',
-        port: '20559',
-        invokingCommand: 'pow' },
-      { command: 'node',
-        pid: '642',
-        port: '4200',
-        invokingCommand: 'ember server' }
-    ]
+
+processes(['node', 'ruby'])  // returns object of all Listening Processes for each command in array
+
+  /* Object output resembles the following:
+    {
+      node: [
+        { command: 'node',
+          pid: '581',
+          port: '20559',
+          invokingCommand: 'pow' },
+        { command: 'node',
+          pid: '642',
+          port: '4200',
+          invokingCommand: 'ember server' }
+      ],
+      ruby: [
+        { command: 'ruby',
+          pid: '720',
+          port: '3000',
+          invokingCommand: 'rails s'
+        }
+      ]
+    }
   */
-processes(['node', 'ruby']) // same as above but returns results for each command in the array
+processes('node') // same as above but returns results for the single command
 processes.kill('581') // kills process at PID=581
 processes.kill(['581', '642']) // kills processes at all PIDs in the array
 ```
