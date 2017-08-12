@@ -1,18 +1,19 @@
 const execSync = require('child_process').execSync
 
 function getProcesses (command) {
-  const lsofOutput = execSync(`lsof -i -P -n | grep '${command}.*:[0-9]* (LISTEN)' | cat`, {encoding: 'utf-8'})
+  const lsofOutput = execSync(`lsof -i TCP -P -n | grep '${command}\\s.*:[0-9]* (LISTEN)' | cat`, {encoding: 'utf-8'})
     .toString()
     .split('\n')
-
-  const processesArray = []
+  const processesObject = {}
   lsofOutput.forEach((lsofString) => {
-    return lsofString
-      ? processesArray.push(createProcessObjectFromLsof(lsofString))
-      : ''
+    if (lsofString) {
+      const currentProcessObject = createProcessObjectFromLsof(lsofString)
+      const command = currentProcessObject.command
+      processesObject[command] = processesObject[command] || []
+      processesObject[command].push(currentProcessObject)
+    }
   })
-
-  return processesArray
+  return processesObject
 }
 
 function createProcessObjectFromLsof (lsofString) {
@@ -47,13 +48,15 @@ function killProcesses (pids) {
 }
 
 function processInfo (commands) {
-  const processInfoObject = {}
+  var processInfoObject = {}
   if (Array.isArray(commands)) {
     commands.forEach((command) => {
-      processInfoObject[command] = getProcesses(command)
+      processInfoObject = Object.assign(processInfoObject, getProcesses(command))
     })
   } else if (typeof commands === 'string') {
-    processInfoObject[commands] = getProcesses(commands)
+    processInfoObject = getProcesses(commands)
+  } else if (typeof commands === 'undefined') {
+    processInfoObject = getProcesses('')
   }
   return processInfoObject
 }

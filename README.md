@@ -37,6 +37,7 @@ processes(['node', 'ruby'])  // returns object of all Listening Processes for ea
     }
   */
 processes('node') // same as above but returns results for the single command
+processes() // same as above but returns all listening processes
 processes.kill('581') // kills process at PID=581
 processes.kill(['581', '642']) // kills processes at all PIDs in the array
 ```
