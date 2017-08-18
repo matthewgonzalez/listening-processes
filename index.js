@@ -39,12 +39,25 @@ function splitWords (string) {
   return string.match(splitWordRegex)
 }
 
-function killProcesses (pids) {
-  if (Array.isArray(pids)) {
-    return execSync(`kill -9 ${pids.join(' ')} | cat`)
-  } else if (typeof pids === 'string') {
-    return execSync(`kill -9 ${pids} | cat`)
+function killAtPID (pid) {
+  try {
+    execSync(`kill -9 ${pid}`)
+    return 'success'
+  } catch (e) {
+    return 'fail'
   }
+}
+
+function killProcesses (pids) {
+  var results = { success: [], fail: [] }
+  if (Array.isArray(pids)) {
+    pids.forEach((pid) => {
+      results[killAtPID(pid)].push(pid)
+    })
+  } else if (typeof pids === 'string' || typeof pids === 'number') {
+    results[killAtPID(pids)].push(pids)
+  }
+  return results
 }
 
 function processInfo (commands) {

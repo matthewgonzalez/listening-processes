@@ -38,8 +38,20 @@ processes(['node', 'ruby'])  // returns object of all Listening Processes for ea
   */
 processes('node') // same as above but returns results for the single command
 processes() // same as above but returns all listening processes
+
 processes.kill('581') // kills process at PID=581
+  /*
+    The `kill` method returns an object with two arrays, 'success' & 'fail', which include the PIDs of the respective results.
+
+    Example:
+    {
+      success: [720, 642],
+      fail: [581]
+    }
+  */
+processes.kill(720)
 processes.kill(['581', '642']) // kills processes at all PIDs in the array
+processes.kill([720, 581])
 ```
 
 ## License
