@@ -1,6 +1,6 @@
 {
   "name": "listening-processes",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A simple NPM module for retrieving pertinent info on processes which are listening on local ports, and for killing those processes using shell commands `lsof`, `ps`, and `kill` in the background.",
   "main": "listening-processes.js",
   "repository": {
