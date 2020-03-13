@@ -1,10 +1,22 @@
 const execSync = require('child_process').execSync
 
 function getProcesses (command) {
+  const processesObject = {}
+
+  /* Sanitizes the input command by limiting the command name 
+   * to specific characters.
+   */
+  const regex = /[^A-Za-z0-9 .\-_]+/g
+  
+  if (command.match(regex))
+  {
+    return processesObject;
+  }
+
   const lsofOutput = execSync(`lsof -i TCP -P -n | grep '${command}\\s.*:[0-9]* (LISTEN)' | cat`, {encoding: 'utf-8'})
     .toString()
     .split('\n')
-  const processesObject = {}
+
   lsofOutput.forEach((lsofString) => {
     if (lsofString) {
       const currentProcessObject = createProcessObjectFromLsof(lsofString)
